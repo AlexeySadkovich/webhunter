@@ -1,20 +1,35 @@
+# -*- coding: utf-8 -*-
+
 from lib.base_info import get_info
+from lib.startflooder import set_options
 from termcolor import colored
 import os
+import platform
 
 #http://ns.licei40.sampo.ru
 
+platform = platform.system()
+
+if platform.lower() == 'windows':
+	clear = "cls"
+else:
+	clear = "clear"
+
+
 def update_screen():
-	wait = input("\nPress <ENTER>")
+	input("\nPress <ENTER>")
 	refresh_screen()
 
+
 def refresh_screen():
-	os.system("clear")
+	os.system(clear)
 	banner()
+
 
 def banner():
 	with open("./lib/banner.txt") as b:
-		print(colored(b.read(), "blue"))
+		print(colored(b.read(), "yellow"))
+	print(colored("/////////", "yellow", attrs=['reverse']) + colored("CAN BE ILLEGAL", "red", "on_yellow") + colored("/////////\n", "yellow", attrs=['reverse']))
 
 
 def get_target():
@@ -47,14 +62,14 @@ def get_action(name, url):
 	ans = 0
 
 	while ans != '99':
-		print("Site: " + url)
-		print("===================")
-		print("[1] Information about host")
+		print(colored("Website: ", "blue") + url)
+
+		print("\n[1] Information about host")
 		print("[2] Get html file")
 		print("[3] Get links")
-		print("[4] Another target")
-		print("[99]Quit")
-		print("===================")
+		print("[4] Start HTTP flood")
+		print("[5] Another target")
+		print("[99]Quit\n")
 
 		try:
 			ans = input("[>] ")
@@ -65,10 +80,12 @@ def get_action(name, url):
 			get_info(name, url)
 			update_screen()
 		elif ans == '2':
-			get_html()
 			update_screen()
 		elif ans == '4':
-			os.system("clear")
+			set_options(name, url)
+			update_screen()
+		elif ans == '5':
+			refresh_screen()
 			get_target()
 		elif ans == '99':
 			print("Bye!")

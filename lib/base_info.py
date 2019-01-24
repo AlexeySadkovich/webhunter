@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import socket
 import requests
 from termcolor import colored
@@ -21,7 +23,7 @@ def get_info(host_name, url):
 		title = get_title(url)
 	except:
 		print(colored("Host is unreachable!", "red"))
-
-	print(colored("\n      RESULT", "white"))
-	print("[IP]    : " + ip_adress)
-	print("[TITLE] : " + title)
+	else:
+		print(colored("\n      RESULT", "white"))
+		print("[IP]    : " + ip_adress)
+		print("[TITLE] : " + title)
