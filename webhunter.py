@@ -2,9 +2,11 @@
 
 from lib.base_info import get_info
 from lib.startflooder import set_options
+from lib.gethtml import gethtml
 from termcolor import colored
 import os
 import platform
+import urllib
 
 #http://ns.licei40.sampo.ru
 
@@ -80,6 +82,7 @@ def get_action(name, url):
 			get_info(name, url)
 			update_screen()
 		elif ans == '2':
+			gethtml(url)
 			update_screen()
 		elif ans == '4':
 			set_options(name, url)
