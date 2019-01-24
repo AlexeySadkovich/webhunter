@@ -1,15 +1,20 @@
 from lib.base_info import get_info
+from termcolor import colored
 import os
 
 #http://ns.licei40.sampo.ru
 
-def refresh_screen(target_url):
+def update_screen():
+	wait = input("\nPress <ENTER>")
+	refresh_screen()
+
+def refresh_screen():
 	os.system("clear")
-	print("Site: " + target_url)
+	banner()
 
 def banner():
 	with open("./lib/banner.txt") as b:
-		print("\n\033[94m" + b.read() + "\033[m")
+		print(colored(b.read(), "blue"))
 
 
 def get_target():
@@ -20,10 +25,10 @@ def get_target():
 		if len(target.split(".")) > 1:
 			break
 		else:
-			print("Invalid URL!")
+			print(colored("Invalid URL!", "red"))
 
 	while True:
-		protocol = input("HTTP or HTTPS [1/2] : ")
+		protocol = input("HTTP or HTTPS [1/2]? : ")
 
 		if protocol == "1":
 			url = "http://" + target
@@ -34,15 +39,16 @@ def get_target():
 		else:
 			print("Invalid Protocol!")
 
+	refresh_screen()
 	get_action(target, url)
-	refresh_screen(url)
 
 
 def get_action(name, url):
 	ans = 0
 
 	while ans != '99':
-		print("\n===================")
+		print("Site: " + url)
+		print("===================")
 		print("[1] Information about host")
 		print("[2] Get html file")
 		print("[3] Get links")
@@ -51,14 +57,16 @@ def get_action(name, url):
 		print("===================")
 
 		try:
-			ans = input("> ")
+			ans = input("[>] ")
 		except:
 			print("Answer is incorrect!")
 
 		if ans == '1':
 			get_info(name, url)
+			update_screen()
 		elif ans == '2':
 			get_html()
+			update_screen()
 		elif ans == '4':
 			os.system("clear")
 			get_target()
@@ -66,12 +74,10 @@ def get_action(name, url):
 			print("Bye!")
 			break
 		else:
-			print("Choose from list")
-
-		refresh_screen(url)
+			refresh_screen()
 
 
 if __name__ == "__main__":
-	banner()
+	refresh_screen()
 	get_target()
 
