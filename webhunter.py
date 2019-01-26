@@ -4,8 +4,10 @@ from lib.base_info import get_info
 from lib.startflooder import set_options
 from lib.gethtml import gethtml
 from termcolor import colored
+from lib.parseurls import add_link
 import os
 import platform
+import sys
 import urllib
 
 #http://ns.licei40.sampo.ru
@@ -64,17 +66,17 @@ def get_action(name, url):
 	ans = 0
 
 	while ans != '99':
-		print(colored("Website: ", "blue") + url)
+		print(colored("	Website: ", "blue") + url)
 
-		print("\n[1] Information about host")
-		print("[2] Get html file")
-		print("[3] Get links")
-		print("[4] Start HTTP flood")
-		print("[5] Another target")
-		print("[99]Quit\n")
+		print("\n [1] Information about host")
+		print(" [2] Get links")
+		print(" [3] Get html file")
+		print(" [4] Start HTTP flood")
+		print(" [5] Another target")
+		print(colored(" [q] Quit\n", "yellow"))
 
 		try:
-			ans = input("[>] ")
+			ans = input(" [>] ")
 		except:
 			print("Answer is incorrect!")
 
@@ -82,6 +84,9 @@ def get_action(name, url):
 			get_info(name, url)
 			update_screen()
 		elif ans == '2':
+			add_link(url)
+			update_screen()
+		elif ans == '3':
 			gethtml(url)
 			update_screen()
 		elif ans == '4':
@@ -90,9 +95,9 @@ def get_action(name, url):
 		elif ans == '5':
 			refresh_screen()
 			get_target()
-		elif ans == '99':
+		elif ans == 'q':
 			print("Bye!")
-			break
+			sys.exit(0)
 		else:
 			refresh_screen()
 

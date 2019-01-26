@@ -11,7 +11,7 @@ def save_output(doc, name):
     if not os.path.exists("outputs/" + name):
         os.makedirs("outputs/" + name)
 
-    with open("outputs/" + name + "/" + name + ".html", "w") as f:
+    with open("outputs/" + name + "/" + name + "_html.html", "w") as f:
         f.write(doc)
 
     print("File saved to outputs/" + name)
