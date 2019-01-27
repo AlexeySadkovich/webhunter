@@ -27,27 +27,31 @@ def save_output(url, links):
 
 
 def add_link(url, maxdepth=1):
+    
     links = []
     domain = url.split("//")[1]
 
-    request = requests.get(url)
+    try:
+        request = requests.get(url)
+    except:
+        print(colored("Host is unreachable!"))
+    else:
+        soup = BeautifulSoup(request.content, 'lxml')
 
-    soup = BeautifulSoup(request.content, 'lxml')
+        for tag_a in soup.find_all('a'):
 
-    for tag_a in soup.find_all('a'):
+            try:
+                link = tag_a['href']
+            except:
+                print(colored("\nURLs not found", "red"))
+                break
 
-        try:
-            link = tag_a['href']
-        except:
-            print(colored("\nURLs not found", "red"))
-            break
+            if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
+                if link.startswith('/') and not link.startswith('//'):
+                    link = url + link
 
-        if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
-            if link.startswith('/') and not link.startswith('//'):
-                link = url + link
-
-            if urlparse(link).netloc == domain and link not in links:
-                links.append(link)
+                if urlparse(link).netloc == domain and link not in links:
+                    links.append(link)
 
     if len(links) > 10:
 
