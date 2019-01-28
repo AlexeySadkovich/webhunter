@@ -4,10 +4,10 @@ from tld import get_tld
 from termcolor import colored
 import requests
 import os
-import lxml
 
 
 forbidden_prefixes = ['#', 'tel:', 'mailto:']
+
 
 def save_output(url, links):
     parse_host = get_tld(url, as_object=True)
@@ -26,7 +26,7 @@ def save_output(url, links):
     print("File saved to outputs/" + name)
 
 
-def add_link(url, maxdepth=1):
+def add_links(url):
     links = []
     domain = url.split("//")[1]
 
@@ -39,27 +39,38 @@ def add_link(url, maxdepth=1):
         try:
             link = tag_a['href']
         except:
-            print(colored("\nURLs not found", "red"))
-            break
+            pass
+        else:
+            if len(link) > 0:
 
-        if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
-            if link.startswith('/') and not link.startswith('//'):
-                link = url + link
+                if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
+                    if link.startswith('/') and not link.startswith('//'):
+                        link = url + link
 
-            if urlparse(link).netloc == domain and link not in links:
-                links.append(link)
+                    if urlparse(link).netloc == domain and link not in links:
+                        links.append(link)
 
-    if len(links) > 10:
+    if len(links) == 0:
+        print(colored("\nURLs not found", "red"))
+
+    elif len(links) > 10:
 
         while True:
-            ans = input("There are more than 10 links.\nSave to file(1) or show all(2)? [1/2] ")
+            ans = input("\nThere are more than 10 links.\nSave to file(1) or show all(2)? [1/2] ")
 
             if ans == '1':
-                save_output(url,links)
+                save_output(url, links)
                 break
             elif ans == '2':
+                print(colored("\n      RESULT", "white"))
+
                 for link in links:
                     print(link)
                 break
             else:
                 print("Unknown variant\n")
+    else:
+        print(colored("\n      RESULT", "white"))
+
+        for link in links:
+            print(link)

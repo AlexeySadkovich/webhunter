@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from lib.base_info import get_info
+from lib.baseinfo import get_info
 from lib.startflooder import set_options
-from lib.gethtml import gethtml
+from lib.gethtml import get_html
 from termcolor import colored
-from lib.parseurls import add_link
+from lib.parseurls import add_links
+from lib.getcss import get_css
 import os
 import platform
 import sys
-import urllib
 
-#http://ns.licei40.sampo.ru
 
 platform = platform.system()
 
@@ -20,7 +19,7 @@ else:
 	clear = "clear"
 
 
-def update_screen():
+def wait_screen():
 	input("\nPress <ENTER>")
 	refresh_screen()
 
@@ -47,7 +46,7 @@ def get_target():
 			print(colored("Invalid URL!", "red"))
 
 	while True:
-		protocol = input("HTTP or HTTPS [1/2]? : ")
+		protocol = input("HTTP or HTTPS? [1/2] : ")
 
 		if protocol == "1":
 			url = "http://" + target
@@ -68,11 +67,13 @@ def get_action(name, url):
 	while ans != '99':
 		print(colored("	Website: ", "blue") + url)
 
-		print("\n [1] Information about host")
-		print(" [2] Get links")
-		print(" [3] Get html file")
-		print(" [4] Start HTTP flood")
-		print(" [5] Another target")
+		print("\n [1] Basic information")
+		print(" [2] Nmap scan" + colored("(Nmap required)", "white"))
+		print(" [3] Get links")
+		print(" [4] Get html file")
+		print(" [5] Get CSS file")
+		print(" [6] Start HTTP flood")
+		print(" [7] Another target")
 		print(colored(" [q] Quit\n", "yellow"))
 
 		try:
@@ -82,21 +83,27 @@ def get_action(name, url):
 
 		if ans == '1':
 			get_info(name, url)
-			update_screen()
-		elif ans == '2':
-			add_link(url)
-			update_screen()
+			wait_screen()
+		elif ans == "2":
+			os.system("nmap -F " + url)
+			wait_screen()
 		elif ans == '3':
-			gethtml(url)
-			update_screen()
+			add_links(url)
+			wait_screen()
 		elif ans == '4':
-			set_options(name, url)
-			update_screen()
+			get_html(url)
+			wait_screen()
 		elif ans == '5':
+			get_css(url)
+			wait_screen()
+		elif ans == '6':
+			set_options(name, url)
+			wait_screen()
+		elif ans == '7':
 			refresh_screen()
 			get_target()
 		elif ans == 'q':
-			print("Bye!")
+			print(colored("\n	Bye!", "green"))
 			sys.exit(0)
 		else:
 			refresh_screen()

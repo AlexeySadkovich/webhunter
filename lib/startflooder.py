@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import socket
-from termcolor import colored
 import sys
 import time
+import platform
 from threading import Thread
+from termcolor import colored
 import os
 from datetime import datetime
 
@@ -15,6 +16,11 @@ threads = 0
 def set_options(target, target_url):
     global threads
     global duration
+
+    if platform.system() == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
 
     print(colored("\nHTTPFLOODER", "yellow"))
 

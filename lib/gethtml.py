@@ -4,20 +4,20 @@ from tld import get_tld
 import os
 
 
-def save_output(doc, name):
+def save_output(doc, name, encoding):
     if not os.path.exists("outputs"):
         os.makedirs("outputs")
 
     if not os.path.exists("outputs/" + name):
         os.makedirs("outputs/" + name)
 
-    with open("outputs/" + name + "/" + name + "_html.html", "w") as f:
+    with open("outputs/" + name + "/" + name + "_html.html", "w", encoding=encoding) as f:
         f.write(doc)
 
-    print("File saved to outputs/" + name)
+        print(colored("\nFile saved to outputs/" + name, "green"))
 
 
-def gethtml(host):
+def get_html(host):
     parse_host = get_tld(host, as_object=True)
     name = parse_host.domain
 
@@ -28,7 +28,9 @@ def gethtml(host):
 
     try:
         doc = response.content.decode("utf-8", errors="ignore")
+        encoding = "utf-8"
     except:
         doc = response.content.decode("cp1251", errors="ignore")
+        encoding = "cp1251"
     finally:
-        save_output(doc, name)
+        save_output(doc, name, encoding)
