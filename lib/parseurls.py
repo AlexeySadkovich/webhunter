@@ -26,14 +26,25 @@ def save_output(url, links):
     print("File saved to outputs/" + name)
 
 
+<<<<<<< HEAD
 def add_links(url):
+=======
+def add_link(url, maxdepth=1):
+    
+>>>>>>> 6efd52fc19099eaca405bb8d6fda015bc7e330e6
     links = []
     domain = url.split("//")[1]
 
-    request = requests.get(url)
+    try:
+        request = requests.get(url)
+    except:
+        print(colored("Host is unreachable!"))
+    else:
+        soup = BeautifulSoup(request.content, 'lxml')
 
-    soup = BeautifulSoup(request.content, 'lxml')
+        for tag_a in soup.find_all('a'):
 
+<<<<<<< HEAD
     for tag_a in soup.find_all('a'):
 
         try:
@@ -52,6 +63,20 @@ def add_links(url):
 
     if len(links) == 0:
         print(colored("\nURLs not found", "red"))
+=======
+            try:
+                link = tag_a['href']
+            except:
+                print(colored("\nURLs not found", "red"))
+                break
+
+            if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
+                if link.startswith('/') and not link.startswith('//'):
+                    link = url + link
+
+                if urlparse(link).netloc == domain and link not in links:
+                    links.append(link)
+>>>>>>> 6efd52fc19099eaca405bb8d6fda015bc7e330e6
 
     elif len(links) > 10:
 
