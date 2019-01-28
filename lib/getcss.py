@@ -1,6 +1,6 @@
-from urllib.parse import urlparse
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
-from tld import get_tld
 from termcolor import colored
 from tld import get_tld
 import requests

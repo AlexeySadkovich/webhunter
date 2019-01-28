@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 from termcolor import colored
 from tld import get_tld

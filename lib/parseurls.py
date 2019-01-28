@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from tld import get_tld
 from termcolor import colored
 import requests
 import os
-
 
 forbidden_prefixes = ['#', 'tel:', 'mailto:']
 
@@ -26,12 +27,7 @@ def save_output(url, links):
     print("File saved to outputs/" + name)
 
 
-<<<<<<< HEAD
-def add_links(url):
-=======
-def add_link(url, maxdepth=1):
-    
->>>>>>> 6efd52fc19099eaca405bb8d6fda015bc7e330e6
+def add_link(url):
     links = []
     domain = url.split("//")[1]
 
@@ -42,9 +38,6 @@ def add_link(url, maxdepth=1):
     else:
         soup = BeautifulSoup(request.content, 'lxml')
 
-        for tag_a in soup.find_all('a'):
-
-<<<<<<< HEAD
     for tag_a in soup.find_all('a'):
 
         try:
@@ -63,20 +56,6 @@ def add_link(url, maxdepth=1):
 
     if len(links) == 0:
         print(colored("\nURLs not found", "red"))
-=======
-            try:
-                link = tag_a['href']
-            except:
-                print(colored("\nURLs not found", "red"))
-                break
-
-            if all(not link.startswith(prefix) for prefix in forbidden_prefixes):
-                if link.startswith('/') and not link.startswith('//'):
-                    link = url + link
-
-                if urlparse(link).netloc == domain and link not in links:
-                    links.append(link)
->>>>>>> 6efd52fc19099eaca405bb8d6fda015bc7e330e6
 
     elif len(links) > 10:
 
@@ -94,8 +73,9 @@ def add_link(url, maxdepth=1):
                 break
             else:
                 print("Unknown variant\n")
+
     else:
         print(colored("\n      RESULT", "white"))
 
-        for link in links:
-            print(link)
+    for link in links:
+        print(link)

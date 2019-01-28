@@ -7,7 +7,6 @@ import platform
 from threading import Thread
 from termcolor import colored
 import os
-from datetime import datetime
 
 
 threads = 0
