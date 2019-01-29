@@ -9,6 +9,7 @@ from lib.getcss import get_css
 import os
 import platform
 import sys
+import socket
 
 
 platform = platform.system()
@@ -85,7 +86,8 @@ def get_action(name, url):
 			get_info(name, url)
 			wait_screen()
 		elif ans == "2":
-			os.system("nmap -F " + url)
+			ip_adress = socket.gethostbyname(name)
+			os.system("nmap -F " + ip_adress)
 			wait_screen()
 		elif ans == '3':
 			add_links(url)

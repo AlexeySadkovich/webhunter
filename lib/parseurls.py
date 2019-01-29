@@ -27,7 +27,7 @@ def save_output(url, links):
     print("File saved to outputs/" + name)
 
 
-def add_link(url):
+def add_links(url):
     links = []
     domain = url.split("//")[1]
 
