@@ -33,6 +33,16 @@ def get_title(url):
 
 	return title[0]
 
+def get_server(url):
+	response = requests.get(url)
+	header = response.headers
+
+	try:
+		result = header['server']
+	except:
+		result = "Could not detect"
+
+	return result
 
 def get_info(host_name, url):
 	ip_adress = ""
@@ -47,4 +57,5 @@ def get_info(host_name, url):
 		print(colored("\n      RESULT", "white"))
 		print("[IP]    : " + ip_adress)
 		print("[TITLE] : " + title)
+		print("[SERVER]: " + get_server(url))
 		print("[ROBOTS]: " + check_robots(url))
